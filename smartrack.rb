@@ -4,15 +4,16 @@ require 'net/http'
 
 @xml_urls = []
 @devices = 'IE 11'
-@urls = ['http://www.google.com/'] #initialize URLs array
+@urls = []
+login_page = 'https://smartrip.wmata.com/Account/AccountLogin.aspx?'
 
-# while (line = inFile.gets)
-#inFile = File.open('/Users/joshkemp/Ruby_Talk/test_urls.txt', 'r') #read file with site URLs strings
-#while (line = inFile.gets)
-#  @urls << line.to_s.chomp #shove urls from input file into an array
-#end
-#inFile.close
 @driver = Selenium::WebDriver.for :firefox
+@driver.navigate.to login_page
+user_name_field = @driver.find_element(:css, 'input#ctl00_MainContent_txtUsername')
+user_name_field.send_keys 'zr2d2'
+
+password_field = @driver.find_element(:css, 'input#ctl00_MainContent_txtUsername')
+password_field.send_keys 'ycTm&LI%q21e'
 
 for i in (0..@urls.length-1)
   puts "#{@urls[i]}"
@@ -22,7 +23,7 @@ for i in (0..@urls.length-1)
 
   sleep 1
   if i == 0 then
-    if @driver.find_element(:css, 'input#number_of_tests').displayed? then
+    if @driver.find_element(:css, 'input#ctl00_MainContent_txtUsername').displayed? then
       puts 'Advanced tab already displayed'
     else
       url_element = @driver.find_element(:css, '#advanced_settings').click
